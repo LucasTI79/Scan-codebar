@@ -11,6 +11,10 @@ export const Wrapper = styled.div`
     left: 15px;
   }
 
+  .title {
+    text-align: center;
+  }
+
   .name {
     font-size: 26px;
     text-align: center;
@@ -22,11 +26,3 @@ export const Wrapper = styled.div`
   }
 `;
 
-export const Cover = styled.img`
-  height: 220px;
-  margin: auto;
-
-  @media (min-width: 320px) and (max-width: 480px) {
-    height: 150px;
-  }
-`;

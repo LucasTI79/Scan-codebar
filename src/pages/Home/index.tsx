@@ -7,6 +7,7 @@ export default function Home(){
   return (
     <Container>
       <Link to="/scannerpage">Scanner</Link>
+      <br></br>
       <Link to="/barcode">Barcode</Link>
 
     </Container>

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getProduct } from '../../services/products'
+import { getProsthesis } from '../../services/prosthesis'
 
 import { Container } from './styles';
 
@@ -8,10 +8,12 @@ import { useParams } from 'react-router-dom';
 
 import Info from './Info'
 
-interface Product {
+interface Prosthesis {
   isbn: string;
   name: string;
-  coverUrl: string;
+  service: string;
+  dr: string;
+  date: string;
 }
 
 interface Params {
@@ -20,23 +22,23 @@ interface Params {
 
 const ProductDetail: React.FC = () => {
   const { isbn } = useParams<Params>();
-  const [product, setProduct] = React.useState({} as Product);
+  const [ prosthesis, setProsthesis] = React.useState<Prosthesis>();
 
   React.useEffect(() => {
     (async() => {
-      const res = await getProduct(isbn);
-      setProduct(res)
+      const res = await getProsthesis(isbn);
+      setProsthesis(res)
     })()
   },[isbn])
 
-  if(!product){
+  if(!prosthesis){
     return(
       <h1>Loading...</h1>
     )
   }else{
     return (
       <Container>
-        <Info product={ product }/>
+        <Info prosthesis={ prosthesis }/>
       </Container>
     )
   } 

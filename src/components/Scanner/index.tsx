@@ -5,7 +5,7 @@ import { validateIsbn } from '../../utils/validateIsbn';
 import { Video, Container, ScanMarker } from './styles'
 
 interface ScannerProps {
-  onScan(): Function
+  onScan: (isbn: string) => void
 }
 
 const Scanner: React.FC<ScannerProps> = ({ onScan }) => {

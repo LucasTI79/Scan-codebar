@@ -2,36 +2,40 @@ import React from 'react';
 import { MdArrowForward } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 
-import { Container, Wrapper, Cover, Info, ActionButtons } from './styles'
+import { Container, Wrapper, Info, ActionButtons } from './styles'
 
-import { getProduct } from '../../services/products';
+import { getProsthesis } from '../../services/prosthesis';
 
 interface Props {
   isbn: string
 }
 
-interface Product {
+interface Prosthesis {
+  isbn: string;
   name: string;
-  coverUrl: string;
+  service: string;
+  dr: string;
+  date: string;
 }
 
 const Result: React.FC<Props> = ({ isbn }) => {
-  const [product, setProduct] = React.useState({} as Product);
+  const [ prosthesis , setProsthesis] = React.useState<Prosthesis | undefined>();
   React.useEffect(() => {
     (async() => {
-      const res = await getProduct(isbn);
-      setProduct(res)
+      const res = await getProsthesis(isbn) as Prosthesis;
+      setProsthesis(res)
     })()
   },[isbn])
 
   return(
     <Container>
-      { product && (
+      { prosthesis && (
         <Link to={`/product/${isbn}`}>
           <Wrapper>
-            <Cover src={product.coverUrl} />
             <Info>
-              <h4 className="name">{product.name}</h4>
+              <p className="name"><b>Profissional:</b> {prosthesis.dr}</p>
+              <p className="name"><b>Paciente:</b> {prosthesis.name}</p>
+              <p className="name"><b>Data:</b> {prosthesis.date}</p>
             </Info>
             <ActionButtons >
               <span className="button">

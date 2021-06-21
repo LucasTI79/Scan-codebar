@@ -45,7 +45,5 @@ const db = [
 ]
 
 export const getProduct = async  (isbn: string) => {
-  const find = db.find(product => product.isbn === isbn)
-  console.log('find', find)
-  return find
+  return db.find(product => product.isbn === isbn)
 }
