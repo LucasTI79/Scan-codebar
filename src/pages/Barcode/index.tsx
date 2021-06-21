@@ -42,7 +42,7 @@ const Barcode: React.FC = () => {
   const print = () => {
     const context: HTMLElement | null = document.getElementById('barcode')
     const screen = window.open('about:blank') as Window;
-    screen.window.onafterprint = () => handleCreateProsthesis();
+    screen.window.onafterprint = function(){handleCreateProsthesis()};
     screen.document.write(context?.outerHTML!)
     screen.window.print()
     screen.window.close()
@@ -50,6 +50,7 @@ const Barcode: React.FC = () => {
   }
 
   const handleCreateProsthesis = () => {
+    alert('afterprint')
     console.log('afterprint')
     api.post('prosthesis', { 
       isbn,
