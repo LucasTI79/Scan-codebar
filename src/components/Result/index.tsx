@@ -19,9 +19,10 @@ interface Prosthesis {
 }
 
 const Result: React.FC<Props> = ({ isbn }) => {
-  const [ prosthesis , setProsthesis] = React.useState<Prosthesis | undefined>();
+  const [ prosthesis , setProsthesis] = React.useState<Prosthesis | null>(null);
   React.useEffect(() => {
     (async() => {
+      console.log('isbn result', isbn)
       const res = await getProsthesis(isbn) as Prosthesis;
       setProsthesis(res)
     })()
@@ -30,7 +31,7 @@ const Result: React.FC<Props> = ({ isbn }) => {
   return(
     <Container>
       { prosthesis && (
-        <Link to={`/product/${isbn}`}>
+        <Link to={`/prosthesis/${isbn}`}>
           <Wrapper>
             <Info>
               <p className="name"><b>Profissional:</b> {prosthesis.dr}</p>

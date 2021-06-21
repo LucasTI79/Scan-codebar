@@ -1,22 +1,32 @@
 import React from 'react';
 import JsBarcode from 'jsbarcode';
 import api from '../../services/api';
+interface prosthesis {
+  number: string,
+  name: string,
+  dr: string,
+  service: string
+}
 
 const Barcode: React.FC = () => {
+  const [ isbn, setIsbn ] = React.useState('' as string)
   const [ name, setName ] = React.useState('' as string)
   const [ service, setService ] = React.useState('' as string)
   const [ dr, setDr ] = React.useState('' as string)
 
- const handleNumber = (number = 9) => {
-  let isbn = ''
-  for(let i = 0; i <= number - 1; i++){
-    isbn += String(Math.floor(Math.random() * 10))
+  const handleNumber = (digit = 9) => {
+    let isbn = ''
+    for(let i = 0; i <= digit - 1; i++){
+      isbn += String(Math.floor(Math.random() * 10))
+    }
+    const number = `978${isbn}`;
+    setIsbn(number)
+    return number
   }
-  return `978${isbn}`;
-}
+
   const handleCodeBar = () => {
 
-    const jsbar = JsBarcode('#barcode' , handleNumber() , {
+    JsBarcode('#barcode' , handleNumber() , {
       text: name,
       format:'EAN13',
       width: 2,
@@ -27,21 +37,26 @@ const Barcode: React.FC = () => {
       flat: true
     });
 
-    api.post('prosthesis', { 
-      isbn: jsbar._encodings[0][0].text,
-      name,
-      dr,
-      service
-    });
-
   }
 
   const print = () => {
     const context: HTMLElement | null = document.getElementById('barcode')
     const screen = window.open('about:blank') as Window;
+    screen.window.onafterprint = () => handleCreateProsthesis();
     screen.document.write(context?.outerHTML!)
     screen.window.print()
     screen.window.close()
+    
+  }
+
+  const handleCreateProsthesis = () => {
+    console.log('afterprint')
+    api.post('prosthesis', { 
+      isbn,
+      name,
+      dr,
+      service
+    });
   }
   
   return(

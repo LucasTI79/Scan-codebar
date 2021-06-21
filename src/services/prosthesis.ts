@@ -7,5 +7,6 @@ import api from './api'
 
 export const getProsthesis = async  (isbn: string) => {
   const response = await api.get(`/prosthesis/${isbn}`);
+  console.log('data', response.data)
   return response.data
 }
