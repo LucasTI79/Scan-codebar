@@ -45,6 +45,7 @@ const Barcode: React.FC = () => {
     screen.window.onafterprint = function(){handleCreateProsthesis()};
     screen.document.write(context?.outerHTML!)
     screen.window.print()
+    handleCreateProsthesis()
     screen.window.close()
     
   }
