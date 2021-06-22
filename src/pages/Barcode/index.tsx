@@ -41,6 +41,7 @@ const Barcode: React.FC = () => {
       flat: true
     });
     setIsbn(`${handle}${checksum(handle)}`)
+    console.log('isbn jsbarcode',`${handle}${checksum(handle)}`)
   }
 
   const print = () => {
@@ -57,6 +58,7 @@ const Barcode: React.FC = () => {
   const handleCreateProsthesis = () => {
     alert('afterprint')
     console.log('afterprint')
+    console.log('isbn api',isbn)
     api.post('prosthesis', { 
       isbn,
       name,
@@ -69,7 +71,7 @@ const Barcode: React.FC = () => {
     <div>
       <h1>Cadastrar código de barras</h1>
       <br></br>
-      <input type="text" placeholder="Nome paciente" value={name} onChange={e => setName(e.target.value)}/>
+      <input type="text" placeholder="Nome paciente" onChange={e => setName(e.target.value)}/>
       <br></br>
       <select onChange={e => setDr(e.target.value)}>
         <option>Selecione o profissional</option>
@@ -77,7 +79,7 @@ const Barcode: React.FC = () => {
         <option value="Dr Lucas">Lucas Canto</option>
       </select>
       <br></br>
-      <input type="text" placeholder="Serviço" value={service} onChange={e => setService(e.target.value)}/>
+      <input type="text" placeholder="Serviço" onChange={e => setService(e.target.value)}/>
       <br></br>
       <button onClick={handleCodeBar} type="submit">Gerar código</button>
       <br></br>
