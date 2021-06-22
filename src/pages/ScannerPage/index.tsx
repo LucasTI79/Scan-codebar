@@ -8,7 +8,7 @@ export default function ScannerPage(){
   return (
     <Container>
       <Scanner onScan={setIsbn}/>
-      <Result isbn={isbn}/>
+      {isbn && <Result isbn={isbn}/>}
     </Container>
   )
 }

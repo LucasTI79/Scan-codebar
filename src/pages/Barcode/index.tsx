@@ -77,7 +77,7 @@ const Barcode: React.FC = () => {
       <br></br>
       <button onClick={handleCodeBar} type="submit">Gerar código</button>
       <br></br>
-      <button onClick={print} type="submit">Print</button>
+      <button onClick={handleCreateProsthesis} type="submit">Print</button>
       <br></br>
       <svg id="barcode"></svg>
     </div>)
