@@ -20,7 +20,7 @@ interface Params {
   isbn: string;
 }
 
-const ProductDetail: React.FC = () => {
+const ProsthesisDetail: React.FC = () => {
   const { isbn } = useParams<Params>();
   const [ prosthesis, setProsthesis] = React.useState<Prosthesis>();
 
@@ -44,4 +44,4 @@ const ProductDetail: React.FC = () => {
   } 
 }
 
-export default ProductDetail;
+export default ProsthesisDetail;
