@@ -1,11 +1,21 @@
 import React from 'react';
 import JsBarcode from 'jsbarcode';
 import api from '../../services/api';
-interface prosthesis {
-  number: string,
-  name: string,
-  dr: string,
-  service: string
+import { handleNumber } from '../../utils/generateHandleNumber'
+import { checksum } from '../../utils/generatecheckdigit'
+
+interface I_encodings {
+  
+}
+interface ICode {
+  _encodings: [
+    [
+      data: string,
+      text: string,
+      height: number,
+
+    ]
+  ]
 }
 
 const Barcode: React.FC = () => {
@@ -14,19 +24,13 @@ const Barcode: React.FC = () => {
   const [ service, setService ] = React.useState('' as string)
   const [ dr, setDr ] = React.useState('' as string)
 
-  const handleNumber = (digit = 9) => {
-    let isbn = ''
-    for(let i = 0; i <= digit - 1; i++){
-      isbn += String(Math.floor(Math.random() * 10))
-    }
-    const number = `978${isbn}`;
-    setIsbn(number)
-    return number
-  }
 
   const handleCodeBar = () => {
 
-    JsBarcode('#barcode' , handleNumber() , {
+    const handle = handleNumber()
+
+    JsBarcode('#barcode' , handle , {
+      displayValue: true,
       text: name,
       format:'EAN13',
       width: 2,
@@ -36,7 +40,7 @@ const Barcode: React.FC = () => {
       textAlign:'center',
       flat: true
     });
-
+    setIsbn(`${handle}${checksum(handle)}`)
   }
 
   const print = () => {
@@ -65,7 +69,7 @@ const Barcode: React.FC = () => {
     <div>
       <h1>Cadastrar código de barras</h1>
       <br></br>
-      <input type="text" placeholder="Nome paciente" onChange={e => setName(e.target.value)}/>
+      <input type="text" placeholder="Nome paciente" value={name} onChange={e => setName(e.target.value)}/>
       <br></br>
       <select onChange={e => setDr(e.target.value)}>
         <option>Selecione o profissional</option>
@@ -73,7 +77,7 @@ const Barcode: React.FC = () => {
         <option value="Dr Lucas">Lucas Canto</option>
       </select>
       <br></br>
-      <input type="text" placeholder="Serviço" onChange={e => setService(e.target.value)}/>
+      <input type="text" placeholder="Serviço" value={service} onChange={e => setService(e.target.value)}/>
       <br></br>
       <button onClick={handleCodeBar} type="submit">Gerar código</button>
       <br></br>
