@@ -1,22 +1,9 @@
 import React from 'react';
 import JsBarcode from 'jsbarcode';
 import api from '../../services/api';
-import { handleNumber } from '../../utils/generateHandleNumber'
-import { checksum } from '../../utils/generatecheckdigit'
-
-interface I_encodings {
-  
-}
-interface ICode {
-  _encodings: [
-    [
-      data: string,
-      text: string,
-      height: number,
-
-    ]
-  ]
-}
+import { handleNumber } from '../../utils/generateHandleNumber';
+import { checksum } from '../../utils/generatecheckdigit';
+import { Input } from './index'
 
 const Barcode: React.FC = () => {
   const [ isbn, setIsbn ] = React.useState('' as string)
@@ -56,9 +43,6 @@ const Barcode: React.FC = () => {
   }
 
   const handleCreateProsthesis = () => {
-    alert('afterprint')
-    console.log('afterprint')
-    console.log('isbn api',isbn)
     api.post('prosthesis', { 
       isbn,
       name,
@@ -83,8 +67,13 @@ const Barcode: React.FC = () => {
       <br></br>
       <button onClick={handleCodeBar} type="submit">Gerar código</button>
       <br></br>
-      <button onClick={handleCreateProsthesis} type="submit">Print</button>
+      <button onClick={print} type="submit">Print</button>
       <br></br>
+      <Input>
+        <label>Password</label>
+        <input type="password"/>
+      </Input>
+      <br/>
       <svg id="barcode"></svg>
     </div>)
 }
