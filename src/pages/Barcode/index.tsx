@@ -3,7 +3,7 @@ import JsBarcode from 'jsbarcode';
 import api from '../../services/api';
 import { handleNumber } from '../../utils/generateHandleNumber';
 import { checksum } from '../../utils/generatecheckdigit';
-import { Input } from './index'
+import { Input } from './styles';
 
 const Barcode: React.FC = () => {
   const [ isbn, setIsbn ] = React.useState('' as string)
