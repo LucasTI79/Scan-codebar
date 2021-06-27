@@ -15,14 +15,13 @@ interface Prosthesis {
   name: string;
   service: string;
   dr: string;
-  date: string;
+  createdAt: string;
 }
 
 const Result: React.FC<Props> = ({ isbn }) => {
-  const [ prosthesis , setProsthesis] = React.useState<Prosthesis | null>(null);
+  const [ prosthesis, setProsthesis ] = React.useState<Prosthesis | null>();
   React.useEffect(() => {
     (async() => {
-      console.log('isbn result', isbn)
       const res = await getProsthesis(isbn) as Prosthesis;
       setProsthesis(res)
     })()
@@ -36,7 +35,7 @@ const Result: React.FC<Props> = ({ isbn }) => {
             <Info>
               <p className="name"><b>Profissional:</b> {prosthesis.dr}</p>
               <p className="name"><b>Paciente:</b> {prosthesis.name}</p>
-              <p className="name"><b>Data:</b> {prosthesis.date}</p>
+              <p className="name"><b>Data:</b> {prosthesis.createdAt}</p>
             </Info>
             <ActionButtons >
               <span className="button">

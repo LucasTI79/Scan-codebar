@@ -13,7 +13,8 @@ interface Prosthesis {
   name: string;
   service: string;
   dr: string;
-  date: string;
+  status: string;
+  createdAt: string;
 }
 
 interface Params {
@@ -22,7 +23,7 @@ interface Params {
 
 const ProsthesisDetail: React.FC = () => {
   const { isbn } = useParams<Params>();
-  const [ prosthesis, setProsthesis] = React.useState<Prosthesis>();
+  const [ prosthesis, setProsthesis ] = React.useState<Prosthesis>();
 
   React.useEffect(() => {
     (async() => {

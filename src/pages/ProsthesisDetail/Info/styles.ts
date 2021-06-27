@@ -10,19 +10,40 @@ export const Wrapper = styled.div`
     top: 15px;
     left: 15px;
   }
+  .container {
+    background: white;
+    border: 1px solid #dedede;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    margin: 0 auto;
+    padding: 30px 50px;
 
-  .title {
-    text-align: center;
-  }
-
-  .name {
-    font-size: 26px;
-    text-align: center;
-    margin: 10px 0;
-
-    @media (min-width: 320px) and (max-width: 480px) {
-      font-size: 22px;
+    input , select {
+      border: 1px solid #d9d9d9;
+      border-radius: 4px;
+      box-sizing: border-box;
+      padding: 10px;
+      margin-top: 5%;
+      width: 100%;
     }
-  }
+
+    label {
+      margin-top: 5%;
+    }
+
+    .submitButton {
+      background-color: #6976d9;
+      color: white;
+      font-family: sans-serif;
+      font-size: 14px;
+      margin: 20px 0px;
+      border-radius: 4px;
+      box-sizing: border-box;
+      padding: 10px;
+      width: 100%;
+    }
+
+   }
 `;
 

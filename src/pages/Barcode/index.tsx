@@ -1,19 +1,30 @@
 import React from 'react';
 import JsBarcode from 'jsbarcode';
-import api from '../../services/api';
+import apiLocal from '../../services/apiLocal';
+import apiSimples from '../../services/apiSimples'
 import { handleNumber } from '../../utils/generateHandleNumber';
 import { checksum } from '../../utils/generatecheckdigit';
-import { Input } from './styles';
+import { Container, SVGContainer} from './styles';
+import Sidebar from '../../components/Sidebar';
 
 const Barcode: React.FC = () => {
   const [ isbn, setIsbn ] = React.useState('' as string)
   const [ name, setName ] = React.useState('' as string)
   const [ service, setService ] = React.useState('' as string)
   const [ dr, setDr ] = React.useState('' as string)
+  const [ sendDate, setSendDate ] = React.useState('' as string)
 
+  const [ patients, setPatients ] = React.useState([{name: String}])
 
-  const handleCodeBar = () => {
+  React.useEffect(() => {
+    apiSimples.get(`pacientes?q=${'23285763892'}`, { 
+      headers:{
+        'X-AUTH-TOKEN':'ZGqeHEsCUwcUmmA4FvxM8oUQ2B3I8fN0h0zPvf2KPR46pbRAha3z2UIw3PTMI8cj'
+     }}).then(r => console.log('r', r.data))
+  })
 
+  const handleCodeBar = (e: any) => {
+    e.preventDefault();
     const handle = handleNumber()
 
     JsBarcode('#barcode' , handle , {
@@ -28,10 +39,10 @@ const Barcode: React.FC = () => {
       flat: true
     });
     setIsbn(`${handle}${checksum(handle)}`)
-    console.log('isbn jsbarcode',`${handle}${checksum(handle)}`)
   }
 
-  const print = () => {
+  const print = (e: any) => {
+    e.preventDefault();
     const context: HTMLElement | null = document.getElementById('barcode')
     const screen = window.open('about:blank') as Window;
     screen.window.onafterprint = function(){handleCreateProsthesis()};
@@ -43,7 +54,7 @@ const Barcode: React.FC = () => {
   }
 
   const handleCreateProsthesis = () => {
-    api.post('prosthesis', { 
+    apiLocal.post('prosthesis', { 
       isbn,
       name,
       dr,
@@ -52,30 +63,50 @@ const Barcode: React.FC = () => {
   }
   
   return(
-    <div>
-      <h1>Cadastrar código de barras</h1>
-      <br></br>
-      <input type="text" placeholder="Nome paciente" onChange={e => setName(e.target.value)}/>
-      <br></br>
-      <select onChange={e => setDr(e.target.value)}>
-        <option>Selecione o profissional</option>
-        <option value="Dra Tatiana">Tatiana Galindo</option>
-        <option value="Dr Lucas">Lucas Canto</option>
-      </select>
-      <br></br>
-      <input type="text" placeholder="Serviço" onChange={e => setService(e.target.value)}/>
-      <br></br>
-      <button onClick={handleCodeBar} type="submit">Gerar código</button>
-      <br></br>
-      <button onClick={print} type="submit">Print</button>
-      <br></br>
-      <Input>
-        <label>Password</label>
-        <input type="password"/>
-      </Input>
-      <br/>
-      <svg id="barcode"></svg>
-    </div>)
+    <Container>
+      <Sidebar />
+      <main>
+        <h1>Cadastrar código de barras</h1>
+        <form >
+          <label htmlFor="txtSendDate">Data de envio</label>
+          <input type="date" onChange={newDate => setSendDate(String(newDate))}/>
+
+          <div>
+            <label htmlFor="txtPatient">Paciente</label>
+            <input id="txtPatient" autoComplete={'off'} className="input" type="text" onChange={e => setName(e.target.value)}/>
+           
+            { patients && (
+              <ul>
+                { patients.map(patient => {
+                  <li>
+                    { patient.name }
+                  </li>
+                })}
+              </ul>
+            )}
+
+          </div>
+
+          <label htmlFor="cboProfessional">Profissional</label>
+          <select id="cboProfessional" onChange={e => setDr(e.target.value)}>
+            <option>Selecione o profissional</option>
+            <option value="Dra Tatiana">Tatiana Galindo</option>
+            <option value="Dr Lucas">Lucas Canto</option>
+          </select>
+     
+          <label htmlFor="txtService">Serviço</label>
+          <input id="txtService" className="input" type="text" onChange={e => setService(e.target.value)}/>
+
+          <button onClick={e => handleCodeBar(e)} className="submitButton" type="submit">Gerar código</button>
+          <button onClick={e => print(e)} className="submitButton" type="submit">Print</button>
+          <SVGContainer>
+           <svg id="barcode"></svg> 
+          </SVGContainer>
+      
+        </form>
+      </main>
+    </Container>
+  )
 }
 
 export default Barcode;

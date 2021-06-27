@@ -1,15 +1,14 @@
 import React from 'react';
-import { Container } from './styles';
-import { Link } from 'react-router-dom';
+import { Container, Wrapper } from './styles';
+import Sidebar from '../../components/Sidebar';
 
 export default function Home(){
-  // const [isbn, setIsbn] = React.useState<string>('');
   return (
     <Container>
-      <Link to="/scannerpage">Scanner</Link>
-      <br></br>
-      <Link to="/barcode">Barcode</Link>
-
+      <Sidebar />
+      <main>
+        <h1>Teste</h1>
+      </main>
     </Container>
   )
 }

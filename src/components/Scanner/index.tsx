@@ -65,10 +65,10 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
       <Container>
         <ScanMarker>
           <img
-            src='../../../public/assets/fullScreen.svg'
+            src='../../assets/fullScreen.svg'
             alt="Marca para leitura do código"
-            width="260"
-            height="260"
+            width="600"
+            height="600"
             />
             <p className="label">Aponte para o código de barras do livro</p>
         </ScanMarker>
