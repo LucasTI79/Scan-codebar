@@ -14,8 +14,8 @@ export const Video = styled.div`
 
   .go-back {
     position: fixed;
-    top: 15px;
-    left: 15px;
+    top: 8px;
+    left: 8px;
   }
 `
 

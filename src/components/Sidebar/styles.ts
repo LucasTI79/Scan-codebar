@@ -12,6 +12,7 @@ export const Aside = styled.aside`
       a {
         height: 50px;
         display: flex;
+        justify-content: space-between;
         align-items: center;
         text-decoration: none;
         color: #0f0f0f;

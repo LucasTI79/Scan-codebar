@@ -4,6 +4,7 @@ import Barcode from './pages/Barcode';
 
 import Home from './pages/Home';
 import ProsthesisDetail from './pages/ProsthesisDetail'
+import Reports from './pages/Reports';
 import ScannerPage from './pages/ScannerPage';
 
 export default function Routes(){
@@ -14,6 +15,7 @@ export default function Routes(){
         <Route path="/scannerpage" component={ScannerPage}/>
         <Route path="/barcode" component={Barcode}/>
         <Route path="/prosthesis/:isbn" component={ProsthesisDetail}/>
+        <Route path="/reports" component={Reports}/>
       </Switch>
     </BrowserRouter>
   )

@@ -6,6 +6,8 @@ import { handleNumber } from '../../utils/generateHandleNumber';
 import { checksum } from '../../utils/generatecheckdigit';
 import { Container, SVGContainer} from './styles';
 import Sidebar from '../../components/Sidebar';
+import { Link } from 'react-router-dom';
+import { MdArrowBack } from 'react-icons/md';
 
 const Barcode: React.FC = () => {
   const [ isbn, setIsbn ] = React.useState('' as string)
@@ -55,7 +57,9 @@ const Barcode: React.FC = () => {
   
   return(
     <Container>
-      <Sidebar />
+      <Link className="go-back" to="/">
+        <MdArrowBack size={32} color={'#6976d9'}/>
+      </Link>
       <main>
         <h1>Cadastrar código de barras</h1>
         <form >

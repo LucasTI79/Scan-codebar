@@ -12,6 +12,7 @@ export const GlobalStyles = createGlobalStyle`
 
   body {
     width: 100vw;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
   }
 
   main {
@@ -19,9 +20,9 @@ export const GlobalStyles = createGlobalStyle`
     width: 90vw;
   }
 
-  @media(max-width: 769px){
+  /* @media(max-width: 769px){
     main {
       width: 100vw;
     } 
-  }
+  } */
 `

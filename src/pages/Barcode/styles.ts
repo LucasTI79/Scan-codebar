@@ -9,6 +9,12 @@ export const Container = styled.div`
     }
   } */
 
+  .go-back {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+  }
+
   h1 {
    border-bottom: 1px solid white;
    color: #3d3d3d;
