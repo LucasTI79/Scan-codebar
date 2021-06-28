@@ -11,12 +11,6 @@ export const Video = styled.div`
   canvas {
     display: none;
   }
-
-  .go-back {
-    position: fixed;
-    top: 8px;
-    left: 8px;
-  }
 `
 
 export const Container = styled.div`
@@ -31,6 +25,12 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  .go-back {
+    position: fixed;
+    top: 8px;
+    left: 8px;
+  }
 `
 
 export const ScanMarker = styled.div`
