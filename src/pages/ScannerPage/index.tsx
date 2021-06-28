@@ -8,10 +8,10 @@ export default function ScannerPage(){
   React.useEffect(() => {
     console.log('isbn', isbn)
   }, [isbn])
-  return (
+  return ( 
     <Container>
       <Scanner onScan={setIsbn}/>
       {isbn && <Result isbn={isbn}/>}
-    </Container>
+    </Container>   
   )
 }

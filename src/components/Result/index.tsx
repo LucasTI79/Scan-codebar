@@ -24,6 +24,7 @@ const Result: React.FC<Props> = ({ isbn }) => {
     (async() => {
       const res = await getProsthesis(isbn) as Prosthesis;
       setProsthesis(res)
+      console.log('isbn new', isbn)
     })()
   },[isbn])
 

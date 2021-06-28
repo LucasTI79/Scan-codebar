@@ -16,7 +16,7 @@ export const Wrapper = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-around;
-    margin: 0 auto;
+    margin: 0 10%;
     padding: 30px 50px;
 
     input , select {
@@ -24,12 +24,12 @@ export const Wrapper = styled.div`
       border-radius: 4px;
       box-sizing: border-box;
       padding: 10px;
-      margin-top: 5%;
+      margin-top: 2%;
       width: 100%;
     }
 
     label {
-      margin-top: 5%;
+      margin-top: 2%;
     }
 
     .submitButton {
