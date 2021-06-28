@@ -5,7 +5,7 @@ import { Aside } from './styles';
 
 const Sidebar: React.FC = () => {
   return (
-    <Aside>
+    <Aside className="sidebar">
       <nav>
         <ul>
           <Link to={'/barcode'}>

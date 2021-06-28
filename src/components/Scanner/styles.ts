@@ -11,6 +11,12 @@ export const Video = styled.div`
   canvas {
     display: none;
   }
+
+  .go-back {
+    position: fixed;
+    top: 15px;
+    left: 15px;
+  }
 `
 
 export const Container = styled.div`

@@ -3,6 +3,12 @@ import styled from 'styled-components';
 export const Container = styled.div`
   display: flex;
 
+  /* @media(min-width: 769px){
+    main {
+      width: 100vw;
+    }
+  } */
+
   h1 {
    border-bottom: 1px solid white;
    color: #3d3d3d;
@@ -20,7 +26,6 @@ export const Container = styled.div`
    display: flex;
    flex-direction: column;
    justify-content: space-around;
-   margin: 0 auto;
    padding: 30px 50px;
  }
 
@@ -56,6 +61,7 @@ export const Container = styled.div`
 
 export const SVGContainer = styled.div`
   display: flex;
+  width: 100%;
   flex-direction: row;
   justify-content: center;
 `

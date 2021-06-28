@@ -3,7 +3,8 @@ import React from 'react'
 import Quagga from 'quagga';
 import { validateIsbn } from '../../utils/validateIsbn';
 import { Video, Container, ScanMarker } from './styles'
-
+import { Link } from 'react-router-dom';
+import { MdArrowBack } from 'react-icons/md';
 interface ScannerProps {
   onScan: (isbn: string) => void
 }
@@ -63,14 +64,20 @@ const Scanner: React.FC<ScannerProps> = ({ onScan }) => {
     <div>
       <Video id="video" />
       <Container>
+
+        <Link className="go-back" to="/">
+          <MdArrowBack size={32} color={'#6976d9'}/>
+        </Link>
+
         <ScanMarker>
-          <img
+          {/* <img
             src='../../assets/fullScreen.svg'
             alt="Marca para leitura do código"
             width="600"
             height="600"
-            />
+            /> */}
             <p className="label">Aponte para o código de barras do livro</p>
+            
         </ScanMarker>
 
       </Container>

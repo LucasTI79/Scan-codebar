@@ -1,7 +1,6 @@
 import React from 'react';
 import { MdArrowBack } from 'react-icons/md';
-import { Link } from 'react-router-dom';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { Wrapper } from './styles';
 import { changeStatus }  from '../../../services/prosthesis';
@@ -22,7 +21,6 @@ const Info: React.FC<Props> = ({ prosthesis }) => {
   const history = useHistory();
 
   const [ status, setStatus ] = React.useState('')
-  const [ redirect, setRedirect ] = React.useState(false);
 
   const handleChangeStatus = async (status: string) => {
     if(!status) return alert('Selecione um novo status para o serviço')

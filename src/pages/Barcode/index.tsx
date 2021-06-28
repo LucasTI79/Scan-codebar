@@ -14,15 +14,6 @@ const Barcode: React.FC = () => {
   const [ dr, setDr ] = React.useState('' as string)
   const [ sendDate, setSendDate ] = React.useState('' as string)
 
-  const [ patients, setPatients ] = React.useState([{name: String}])
-
-  React.useEffect(() => {
-    apiSimples.get(`pacientes?q=${'23285763892'}`, { 
-      headers:{
-        'X-AUTH-TOKEN':'ZGqeHEsCUwcUmmA4FvxM8oUQ2B3I8fN0h0zPvf2KPR46pbRAha3z2UIw3PTMI8cj'
-     }}).then(r => console.log('r', r.data))
-  })
-
   const handleCodeBar = (e: any) => {
     e.preventDefault();
     const handle = handleNumber()
@@ -74,17 +65,6 @@ const Barcode: React.FC = () => {
           <div>
             <label htmlFor="txtPatient">Paciente</label>
             <input id="txtPatient" autoComplete={'off'} className="input" type="text" onChange={e => setName(e.target.value)}/>
-           
-            { patients && (
-              <ul>
-                { patients.map(patient => {
-                  <li>
-                    { patient.name }
-                  </li>
-                })}
-              </ul>
-            )}
-
           </div>
 
           <label htmlFor="cboProfessional">Profissional</label>
@@ -100,9 +80,8 @@ const Barcode: React.FC = () => {
           <button onClick={e => handleCodeBar(e)} className="submitButton" type="submit">Gerar código</button>
           <button onClick={e => print(e)} className="submitButton" type="submit">Print</button>
           <SVGContainer>
-           <svg id="barcode"></svg> 
+            <svg id="barcode"></svg> 
           </SVGContainer>
-      
         </form>
       </main>
     </Container>
