@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Container, Wrapper, Info, ActionButtons } from './styles'
 
-import { getProsthesis } from '../../services/prosthesis';
+import { getProsthesis, IProsthesis } from '../../services/prosthesis';
 
 interface Props {
   isbn: string
@@ -19,11 +19,11 @@ interface Prosthesis {
 }
 
 const Result: React.FC<Props> = ({ isbn }) => {
-  const [ prosthesis, setProsthesis ] = React.useState<Prosthesis | null>();
+  const [ prosthesis, setProsthesis ] = React.useState<IProsthesis | null>();
   React.useEffect(() => {
     (async() => {
-      const res = await getProsthesis(isbn) as Prosthesis;
-      setProsthesis(res)
+      const res = await getProsthesis(isbn) ;
+      setProsthesis(res.data)
       console.log('isbn new', isbn)
     })()
   },[isbn])
@@ -34,8 +34,8 @@ const Result: React.FC<Props> = ({ isbn }) => {
         <Link to={`/prosthesis/${isbn}`}>
           <Wrapper>
             <Info>
-              <p className="name"><b>Profissional:</b> {prosthesis.dr}</p>
-              <p className="name"><b>Paciente:</b> {prosthesis.name}</p>
+              <p className="name"><b>Profissional:</b> {prosthesis.professional}</p>
+              <p className="name"><b>Paciente:</b> {prosthesis.patient}</p>
               <p className="name"><b>Data:</b> {prosthesis.createdAt}</p>
             </Info>
             <ActionButtons >

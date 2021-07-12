@@ -63,6 +63,12 @@ export const Container = styled.div`
    padding: 10px;
    width: 100%;
  }
+ 
+ main {
+   width: 100vw;
+
+  
+ }
 `
 
 export const SVGContainer = styled.div`
@@ -70,6 +76,11 @@ export const SVGContainer = styled.div`
   width: 100%;
   flex-direction: row;
   justify-content: center;
+
+  @media print {
+    @page { margin: 0; }
+    body { margin: 1.6cm; }
+  }
 `
 
 

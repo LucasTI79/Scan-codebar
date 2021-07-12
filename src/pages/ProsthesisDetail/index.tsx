@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { getProsthesis } from '../../services/prosthesis'
+import { getProsthesis, IProsthesis } from '../../services/prosthesis'
 
 import { Container } from './styles';
 
@@ -8,27 +8,18 @@ import { useParams } from 'react-router-dom';
 
 import Info from './Info'
 
-interface Prosthesis {
-  isbn: string;
-  name: string;
-  service: string;
-  dr: string;
-  status: string;
-  createdAt: string;
-}
-
 interface Params {
   isbn: string;
 }
 
 const ProsthesisDetail: React.FC = () => {
   const { isbn } = useParams<Params>();
-  const [ prosthesis, setProsthesis ] = React.useState<Prosthesis>();
+  const [ prosthesis, setProsthesis ] = React.useState<IProsthesis>();
 
   React.useEffect(() => {
     (async() => {
       const res = await getProsthesis(isbn);
-      setProsthesis(res)
+      setProsthesis(res.data)
     })()
   },[isbn])
 
@@ -39,6 +30,7 @@ const ProsthesisDetail: React.FC = () => {
   }else{
     return (
       <Container>
+        {/* //@ts-ignore */}
         <Info prosthesis={ prosthesis }/>
       </Container>
     )

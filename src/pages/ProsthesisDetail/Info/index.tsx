@@ -3,18 +3,9 @@ import { MdArrowBack } from 'react-icons/md';
 import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { Wrapper } from './styles';
-import { changeStatus }  from '../../../services/prosthesis';
-interface Prosthesis {
-  isbn: string;
-  name: string;
-  service: string;
-  dr: string;
-  status: string;
-  createdAt: string;
-}
-
+import { changeStatus, IProsthesis }  from '../../../services/prosthesis';
 interface Props {
-  prosthesis: Prosthesis;
+  prosthesis: IProsthesis;
 }
 
 const Info: React.FC<Props> = ({ prosthesis }) => {
@@ -41,8 +32,8 @@ const Info: React.FC<Props> = ({ prosthesis }) => {
         <h2 className="title">Prótese</h2>
         <br></br>
         <p className="name"><b>Data de envio:</b> {moment(prosthesis.createdAt).format('LLL')}</p>
-        <p className="name"><b>Profissional:</b> {prosthesis.dr}</p>
-        <p className="name"><b>Paciente:</b> {prosthesis.name}</p>
+        <p className="name"><b>Profissional:</b> {prosthesis.professional}</p>
+        <p className="name"><b>Paciente:</b> {prosthesis.patient}</p>
         <p className="name"><b>Serviço:</b> {prosthesis.service}</p>
         <p className="name"><b>Status Atual:</b> {prosthesis.status}</p>
 

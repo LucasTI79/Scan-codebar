@@ -1,20 +1,57 @@
 import React from 'react';
 import JsBarcode from 'jsbarcode';
-import apiLocal from '../../services/apiLocal';
-import apiSimples from '../../services/apiSimples'
 import { handleNumber } from '../../utils/generateHandleNumber';
 import { checksum } from '../../utils/generatecheckdigit';
 import { Container, SVGContainer} from './styles';
-import Sidebar from '../../components/Sidebar';
 import { Link } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
+import { getProfissional, IProfessional } from '../../services/profissional';
+import apiLocal from '../../services/apiLocal';
+import { getPatients, IPatient } from '../../services/patients';
+import { getServices, IServices } from '../../services/services';
 
 const Barcode: React.FC = () => {
-  const [ isbn, setIsbn ] = React.useState('' as string)
-  const [ name, setName ] = React.useState('' as string)
-  const [ service, setService ] = React.useState('' as string)
-  const [ dr, setDr ] = React.useState('' as string)
-  const [ sendDate, setSendDate ] = React.useState('' as string)
+  React.useEffect(() => {
+    (async() => {
+      const { data: dataProfessional } = await getProfissional();
+      setDrs(dataProfessional)
+      const { data: dataPatients } = await getPatients();
+      setPatients(dataPatients)
+      const { data: dataServices } = await getServices();
+      setServices(dataServices)
+    })()
+  },[])
+
+  const [ drs, setDrs ] = React.useState<IProfessional>()
+  const [ patients, setPatients ] = React.useState<IPatient>()
+  const [ services, setServices ] = React.useState<IServices>()
+
+  const [ isbn, setIsbn ] = React.useState<string>('')
+  const [ patient, setPatient ] = React.useState<NamedNodeMap | undefined>()
+  const [ service, setService ] = React.useState<NamedNodeMap | undefined>()
+  const [ dr, setDr ] = React.useState<NamedNodeMap | undefined>()
+  const [ deliveryDate, setDeliveryDate ] = React.useState('' as string)
+
+  const catchValue = (inputId: string, cboId: string) => {
+    const value = document.getElementById(inputId) as HTMLInputElement;
+    const cbo = document.getElementById(cboId) as HTMLDataListElement;
+    const opts = cbo.childNodes;
+
+    for(let i = 0; i < opts.length; i++){
+      //@ts-ignore
+      if(opts[i].value === value){
+        //@ts-ignore
+        alert(opts[i].value)
+        //@ts-ignore
+        console.log('opt',opts[i].value)
+        break
+      }
+    }
+
+    // console.log('value input', value.value)
+    // //@ts-ignore
+    // console.log('value cbo', value.attributes["data-id"].value)
+  }
 
   const handleCodeBar = (e: any) => {
     e.preventDefault();
@@ -22,7 +59,8 @@ const Barcode: React.FC = () => {
 
     JsBarcode('#barcode' , handle , {
       displayValue: true,
-      text: name,
+      //@ts-ignore
+      text: patient["value"].value,
       format:'EAN13',
       width: 2,
       height:60,
@@ -32,13 +70,14 @@ const Barcode: React.FC = () => {
       flat: true
     });
     setIsbn(`${handle}${checksum(handle)}`)
+    //@ts-ignore
+    // document.getElementById('barcode')?.appendChild(document.createElement('p').innerHTML="Tatiana")
   }
 
   const print = (e: any) => {
     e.preventDefault();
     const context: HTMLElement | null = document.getElementById('barcode')
     const screen = window.open('about:blank') as Window;
-    screen.window.onafterprint = function(){handleCreateProsthesis()};
     screen.document.write(context?.outerHTML!)
     screen.window.print()
     handleCreateProsthesis()
@@ -47,11 +86,17 @@ const Barcode: React.FC = () => {
   }
 
   const handleCreateProsthesis = () => {
+    //@ts-ignore
+    // console.log('patient, dr, service', patient["value"].value, dr["value"].value, service["value"].value, service["data-lab"].value)
     apiLocal.post('prosthesis', { 
-      isbn,
-      name,
-      dr,
-      service
+      isbn,//@ts-ignore
+      patient: { id: patient["data-id"].value }, //@ts-ignore
+      professional: { id: dr["data-id"].value },//@ts-ignore
+      service: { id: service["data-id"].value },//@ts-ignore
+      lab: { id: service["data-lab"].value },
+      box: 1,
+      status: { id: '9105d921-fd5d-4808-963e-c8fa7abb0f16'},
+      DeliveryDate: deliveryDate
     });
   }
   
@@ -63,23 +108,46 @@ const Barcode: React.FC = () => {
       <main>
         <h1>Cadastrar código de barras</h1>
         <form >
-          <label htmlFor="txtSendDate">Data de envio</label>
-          <input type="date" onChange={newDate => setSendDate(String(newDate))}/>
+          <label htmlFor="txtSendDate">Data de retorno</label>
+          <input type="date" onChange={e => setDeliveryDate(e.target.value)}/>
 
           <div>
             <label htmlFor="txtPatient">Paciente</label>
-            <input id="txtPatient" autoComplete={'off'} className="input" type="text" onChange={e => setName(e.target.value)}/>
+            
+            <input 
+              id="txtPatient" 
+              list="dataPatient" 
+              //onChange={() => setPatient(document.getElementById('dataPatient')?.children[0].attributes)}
+              onChange={() => catchValue("txtPatient","dataPatient")}
+              />
+            <datalist id="dataPatient">
+              { //@ts-ignore
+                patients && patients.map((item, i) =>
+                <option key={i} data-id={item.id} value={item.name}/>
+              )}
+            </datalist>
           </div>
 
-          <label htmlFor="cboProfessional">Profissional</label>
-          <select id="cboProfessional" onChange={e => setDr(e.target.value)}>
-            <option>Selecione o profissional</option>
-            <option value="Dra Tatiana">Tatiana Galindo</option>
-            <option value="Dr Lucas">Lucas Canto</option>
-          </select>
+          <label htmlFor="txtProfessional">Profissional</label>
+          
+          <input id="txtProfessional" list="dataProfessional" onChange={() => setDr(document.getElementById('dataProfessional')?.children[0].attributes)} />
+
+          <datalist id="dataProfessional">
+            { //@ts-ignore
+              drs && drs.map((item, i) =>
+              <option key={i} data-id={item.id} value={item.name}/>
+              )}
+          </datalist>
      
           <label htmlFor="txtService">Serviço</label>
-          <input id="txtService" className="input" type="text" onChange={e => setService(e.target.value)}/>
+          <input id="txtService" className="input" list="dataServices" type="text" onChange={() => setService(document.getElementById('dataServices')?.children[0].attributes)}/>
+
+          <datalist id="dataServices">
+            { //@ts-ignore
+              services && services.map((item, i) =>
+              <option key={i} data-id={item.id} data-lab={item.lab.id} value={item.name} />
+            )}
+          </datalist>
 
           <button onClick={e => handleCodeBar(e)} className="submitButton" type="submit">Gerar código</button>
           <button onClick={e => print(e)} className="submitButton" type="submit">Print</button>
