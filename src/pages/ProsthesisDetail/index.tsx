@@ -14,14 +14,16 @@ interface Params {
 
 const ProsthesisDetail: React.FC = () => {
   const { isbn } = useParams<Params>();
-  const [ prosthesis, setProsthesis ] = React.useState<IProsthesis>();
+  const [ prosthesis, setProsthesis ] = React.useState<IProsthesis[]>();
 
   React.useEffect(() => {
     (async() => {
       const res = await getProsthesis(isbn);
-      setProsthesis(res.data)
+      setProsthesis([res.data])
     })()
   },[isbn])
+
+  console.log('prosthesis',prosthesis)
 
   if(!prosthesis){
     return(

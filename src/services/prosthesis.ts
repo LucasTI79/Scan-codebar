@@ -10,6 +10,7 @@ export const getAllProsthesis = async  () => {
 }
 
 export const getProsthesis = async  (isbn: string) => {
+  console.log('isbn', isbn)
   const response = await apiLocal.get(`/prosthesis/${isbn}`);
   return response as AxiosResponse<IProsthesis>
 }

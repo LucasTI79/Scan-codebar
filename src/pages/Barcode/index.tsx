@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Dispatch } from 'react';
 import JsBarcode from 'jsbarcode';
 import { handleNumber } from '../../utils/generateHandleNumber';
 import { checksum } from '../../utils/generatecheckdigit';
@@ -32,35 +32,28 @@ const Barcode: React.FC = () => {
   const [ dr, setDr ] = React.useState<NamedNodeMap | undefined>()
   const [ deliveryDate, setDeliveryDate ] = React.useState('' as string)
 
-  const catchValue = (inputId: string, cboId: string) => {
+  const catchValue = (inputId: string, cboId: string, setState: Dispatch<any> ) => {
     const value = document.getElementById(inputId) as HTMLInputElement;
     const cbo = document.getElementById(cboId) as HTMLDataListElement;
     const opts = cbo.childNodes;
 
     for(let i = 0; i < opts.length; i++){
       //@ts-ignore
-      if(opts[i].value === value){
+      if(opts[i].value === value.value){
         //@ts-ignore
-        alert(opts[i].value)
-        //@ts-ignore
-        console.log('opt',opts[i].value)
+        setState(opts[i]) 
         break
       }
     }
-
-    // console.log('value input', value.value)
-    // //@ts-ignore
-    // console.log('value cbo', value.attributes["data-id"].value)
   }
 
   const handleCodeBar = (e: any) => {
     e.preventDefault();
     const handle = handleNumber()
-
     JsBarcode('#barcode' , handle , {
       displayValue: true,
       //@ts-ignore
-      text: patient["value"].value,
+      text: patient["value"],
       format:'EAN13',
       width: 2,
       height:60,
@@ -70,8 +63,6 @@ const Barcode: React.FC = () => {
       flat: true
     });
     setIsbn(`${handle}${checksum(handle)}`)
-    //@ts-ignore
-    // document.getElementById('barcode')?.appendChild(document.createElement('p').innerHTML="Tatiana")
   }
 
   const print = (e: any) => {
@@ -85,19 +76,23 @@ const Barcode: React.FC = () => {
     
   }
 
-  const handleCreateProsthesis = () => {
-    //@ts-ignore
-    // console.log('patient, dr, service', patient["value"].value, dr["value"].value, service["value"].value, service["data-lab"].value)
-    apiLocal.post('prosthesis', { 
+
+
+
+  const handleCreateProsthesis = async () => {
+   
+   const res = await apiLocal.post('prosthesis', { 
       isbn,//@ts-ignore
-      patient: { id: patient["data-id"].value }, //@ts-ignore
-      professional: { id: dr["data-id"].value },//@ts-ignore
-      service: { id: service["data-id"].value },//@ts-ignore
-      lab: { id: service["data-lab"].value },
+      patient: { id: patient.attributes["data-id"].value }, //@ts-ignore
+      professional: { id: dr.attributes["data-id"].value },//@ts-ignore
+      service: { id: service.attributes["data-id"].value },//@ts-ignore
+      lab: { id: service.attributes["data-lab"].value },
       box: 1,
       status: { id: '9105d921-fd5d-4808-963e-c8fa7abb0f16'},
-      DeliveryDate: deliveryDate
+      DeliveryDate: deliveryDate || null
     });
+
+    if(res.status === 201) { alert('barcode generate success') }
   }
   
   return(
@@ -117,9 +112,10 @@ const Barcode: React.FC = () => {
             <input 
               id="txtPatient" 
               list="dataPatient" 
-              //onChange={() => setPatient(document.getElementById('dataPatient')?.children[0].attributes)}
-              onChange={() => catchValue("txtPatient","dataPatient")}
+              onChange={() => catchValue("txtPatient","dataPatient", setPatient )}
+              autoComplete={'off'}
               />
+    
             <datalist id="dataPatient">
               { //@ts-ignore
                 patients && patients.map((item, i) =>
@@ -130,7 +126,12 @@ const Barcode: React.FC = () => {
 
           <label htmlFor="txtProfessional">Profissional</label>
           
-          <input id="txtProfessional" list="dataProfessional" onChange={() => setDr(document.getElementById('dataProfessional')?.children[0].attributes)} />
+          <input 
+            id="txtProfessional" 
+            list="dataProfessional" 
+            onChange={() => catchValue("txtProfessional","dataProfessional", setDr )} 
+            autoComplete={'off'}
+            />
 
           <datalist id="dataProfessional">
             { //@ts-ignore
@@ -140,7 +141,14 @@ const Barcode: React.FC = () => {
           </datalist>
      
           <label htmlFor="txtService">Serviço</label>
-          <input id="txtService" className="input" list="dataServices" type="text" onChange={() => setService(document.getElementById('dataServices')?.children[0].attributes)}/>
+          <input 
+            id="txtService" 
+            className="input" 
+            list="dataServices" 
+            type="text" 
+            onChange={() => catchValue("txtService","dataServices", setService )}
+            autoComplete={'off'}
+            />
 
           <datalist id="dataServices">
             { //@ts-ignore

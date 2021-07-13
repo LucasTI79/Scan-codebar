@@ -10,14 +10,6 @@ interface Props {
   isbn: string
 }
 
-interface Prosthesis {
-  isbn: string;
-  name: string;
-  service: string;
-  dr: string;
-  createdAt: string;
-}
-
 const Result: React.FC<Props> = ({ isbn }) => {
   const [ prosthesis, setProsthesis ] = React.useState<IProsthesis | null>();
   React.useEffect(() => {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Dispatch } from 'react'
 // @ts-ignore
 import Quagga from 'quagga';
 import { validateIsbn } from '../../utils/validateIsbn';
@@ -6,7 +6,7 @@ import { Video, Container, ScanMarker } from './styles'
 import { Link } from 'react-router-dom';
 import { MdArrowBack } from 'react-icons/md';
 interface ScannerProps {
-  onScan: (isbn: string) => void
+  onScan: Dispatch<string>
 }
 
 const Scanner: React.FC<ScannerProps> = ({ onScan }) => {

@@ -6,38 +6,6 @@ import { Container } from './styles';
 import _ from 'underscore';
 import createReactClass from 'create-react-class';
 
-const newa = {
-  "id": "06cbd63f-82c0-4342-aa15-dcf3836197c9",
-  "isbn": "9784732381842",
-  "box": 1,
-  "region": null,
-  "DeliveryDate": "2021-07-15T00:00:00.000Z",
-  "createdAt": "2021-07-11T02:40:54.409Z",
-  "updatedAt": "2021-07-11T02:40:54.409Z",
-  "patient": "Lucas",
-  "service": "Montagem de dentes teste",
-  "lab": "Studio Dental",
-  "professional": "Lucas Canto",
-  "status": "send"
-}
-
-const olda = [
-  {
-      "id": "06cbd63f-82c0-4342-aa15-dcf3836197c9",
-      "isbn": "9784732381842",
-      "box": 1,
-      "region": null,
-      "DeliveryDate": "2021-07-15T00:00:00.000Z",
-      "createdAt": "2021-07-11T02:40:54.409Z",
-      "updatedAt": "2021-07-11T02:40:54.409Z",
-      "patient": "Lucas",
-      "service": "Montagem de dentes teste",
-      "lab": "Studio Dental",
-      "professional": "Lucas Canto",
-      "status": "send"
-  }
-]
-
 const Reports: React.FC = () => {
   const [ prosthesis, setProsthesis] = React.useState<IProsthesis[]>([])
   React.useEffect(() => {
