@@ -23,8 +23,6 @@ const ProsthesisDetail: React.FC = () => {
     })()
   },[isbn])
 
-  console.log('prosthesis',prosthesis)
-
   if(!prosthesis){
     return(
       <h1>Loading...</h1>

@@ -9,6 +9,7 @@ import { getProfissional, IProfessional } from '../../services/profissional';
 import apiLocal from '../../services/apiLocal';
 import { getPatients, IPatient } from '../../services/patients';
 import { getServices, IServices } from '../../services/services';
+import { catchValue } from '../../utils/catchValueDataList';
 
 const Barcode: React.FC = () => {
   React.useEffect(() => {
@@ -22,7 +23,7 @@ const Barcode: React.FC = () => {
     })()
   },[])
 
-  const [ drs, setDrs ] = React.useState<IProfessional>()
+  const [ drs, setDrs ] = React.useState<IProfessional[]>()
   const [ patients, setPatients ] = React.useState<IPatient>()
   const [ services, setServices ] = React.useState<IServices>()
 
@@ -31,21 +32,7 @@ const Barcode: React.FC = () => {
   const [ service, setService ] = React.useState<NamedNodeMap | undefined>()
   const [ dr, setDr ] = React.useState<NamedNodeMap | undefined>()
   const [ deliveryDate, setDeliveryDate ] = React.useState('' as string)
-
-  const catchValue = (inputId: string, cboId: string, setState: Dispatch<any> ) => {
-    const value = document.getElementById(inputId) as HTMLInputElement;
-    const cbo = document.getElementById(cboId) as HTMLDataListElement;
-    const opts = cbo.childNodes;
-
-    for(let i = 0; i < opts.length; i++){
-      //@ts-ignore
-      if(opts[i].value === value.value){
-        //@ts-ignore
-        setState(opts[i]) 
-        break
-      }
-    }
-  }
+  const [ box, setBox ] = React.useState<string>()
 
   const handleCodeBar = (e: any) => {
     e.preventDefault();
@@ -76,9 +63,6 @@ const Barcode: React.FC = () => {
     
   }
 
-
-
-
   const handleCreateProsthesis = async () => {
    
    const res = await apiLocal.post('prosthesis', { 
@@ -87,7 +71,7 @@ const Barcode: React.FC = () => {
       professional: { id: dr.attributes["data-id"].value },//@ts-ignore
       service: { id: service.attributes["data-id"].value },//@ts-ignore
       lab: { id: service.attributes["data-lab"].value },
-      box: 1,
+      box,
       status: { id: '9105d921-fd5d-4808-963e-c8fa7abb0f16'},
       DeliveryDate: deliveryDate || null
     });
@@ -105,24 +89,23 @@ const Barcode: React.FC = () => {
         <form >
           <label htmlFor="txtSendDate">Data de retorno</label>
           <input type="date" onChange={e => setDeliveryDate(e.target.value)}/>
-
-          <div>
-            <label htmlFor="txtPatient">Paciente</label>
-            
-            <input 
-              id="txtPatient" 
-              list="dataPatient" 
-              onChange={() => catchValue("txtPatient","dataPatient", setPatient )}
-              autoComplete={'off'}
-              />
-    
-            <datalist id="dataPatient">
-              { //@ts-ignore
-                patients && patients.map((item, i) =>
-                <option key={i} data-id={item.id} value={item.name}/>
-              )}
-            </datalist>
-          </div>
+      
+          <label htmlFor="txtPatient">Paciente</label>
+          
+          <input 
+            id="txtPatient" 
+            list="dataPatient" 
+            onChange={() => catchValue("txtPatient","dataPatient", setPatient )}
+            autoComplete={'off'}
+            />
+  
+          <datalist id="dataPatient">
+            { //@ts-ignore
+              patients && patients.map((item, i) =>
+              <option key={i} data-id={item.id} value={item.name}/>
+            )}
+          </datalist>
+          
 
           <label htmlFor="txtProfessional">Profissional</label>
           
@@ -143,7 +126,6 @@ const Barcode: React.FC = () => {
           <label htmlFor="txtService">Serviço</label>
           <input 
             id="txtService" 
-            className="input" 
             list="dataServices" 
             type="text" 
             onChange={() => catchValue("txtService","dataServices", setService )}
@@ -156,6 +138,12 @@ const Barcode: React.FC = () => {
               <option key={i} data-id={item.id} data-lab={item.lab.id} value={item.name} />
             )}
           </datalist>
+
+          <label>Box</label>
+          <input 
+            type="text"
+            onChange={(e) => setBox(e.target.value)}
+          />
 
           <button onClick={e => handleCodeBar(e)} className="submitButton" type="submit">Gerar código</button>
           <button onClick={e => print(e)} className="submitButton" type="submit">Print</button>

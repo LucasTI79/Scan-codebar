@@ -10,14 +10,23 @@ export const getAllProsthesis = async  () => {
 }
 
 export const getProsthesis = async  (isbn: string) => {
-  console.log('isbn', isbn)
   const response = await apiLocal.get(`/prosthesis/${isbn}`);
   return response as AxiosResponse<IProsthesis>
 }
 
-export const changeStatus = async (isbn: string, status: string) => {
-  const response = await apiLocal.put(`/prosthesis/${isbn}`, { status });
-  return response as AxiosResponse
+export const changeStatus = async (isbn: string, prosthesis: IProsthesis) => {
+  const response = await apiLocal.put(`/prosthesis/${isbn}`, {
+    isbn,
+    patient: prosthesis.patient,
+    professional: prosthesis.professional,
+    service: prosthesis.service,
+    lab: prosthesis.lab,
+    status: prosthesis.status,
+    box: prosthesis.box,
+    region: prosthesis.region,
+    DeliveryDate: prosthesis.DeliveryDate
+  });
+  return response as AxiosResponse<ResponseUpdated>
 }
 
 export interface IProsthesis {
@@ -38,4 +47,8 @@ export interface IProsthesis {
 interface IStatus {
   id: string,
   name: string
+}
+
+interface ResponseUpdated {
+  prosthesis: number
 }

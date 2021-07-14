@@ -3,8 +3,12 @@ import { MdArrowBack } from 'react-icons/md';
 import { Link } from 'react-router-dom';
 import { getAllProsthesis, IProsthesis } from '../../services/prosthesis';
 import { Container } from './styles';
+import moment from 'moment';
+import 'moment/locale/pt-br';
 import _ from 'underscore';
 import createReactClass from 'create-react-class';
+
+moment.locale('pt-br')
 
 const Reports: React.FC = () => {
   const [ prosthesis, setProsthesis] = React.useState<IProsthesis[]>([])
@@ -15,20 +19,36 @@ const Reports: React.FC = () => {
     })();
   },[])
 
-  const newProsthesis = prosthesis.map(prosthesis => ({
-      id: prosthesis.id,
-      isbn: prosthesis.isbn,
-      box: prosthesis.box,
-      region: prosthesis.region,
-      DeliveryDate: prosthesis.DeliveryDate,
-      createdAt: prosthesis.createdAt,
-      updatedAt: prosthesis.updatedAt,
-      patient: prosthesis.patient.name,
-      service: prosthesis.service.name,
-      lab:prosthesis.lab.name,
-      professional: prosthesis.professional.name, 
-      status: prosthesis.status.name,
-  }))
+  // const newProsthesis = prosthesis.map(prosthesis => ({
+  //     id: prosthesis?.id,
+  //     isbn: prosthesis?.isbn,
+  //     box: prosthesis?.box,
+  //     region: prosthesis?.region,
+  //     DeliveryDate: moment(prosthesis?.DeliveryDate).format('DD MM YYYY hh:mm'),
+  //     createdAt: prosthesis?.createdAt,
+  //     updatedAt: prosthesis?.updatedAt,
+  //     patient: prosthesis?.patient?.name,
+  //     service: prosthesis?.service?.name,
+  //     lab:prosthesis?.lab?.name,
+  //     professional: prosthesis?.professional?.name, 
+  //     status: prosthesis?.status?.name,
+  // }))
+
+  const newProsthesis = prosthesis.map(prosthesis => {
+    return({
+    id: prosthesis?.id,
+    isbn: prosthesis?.isbn,
+    box: prosthesis?.box,
+    region: prosthesis?.region,
+    DeliveryDate: moment(prosthesis?.DeliveryDate).format('DD MM YYYY hh:mm'),
+    createdAt: prosthesis?.createdAt,
+    updatedAt: prosthesis?.updatedAt,
+    patient: prosthesis?.patient?.name,
+    service: prosthesis?.service?.name,
+    lab:prosthesis?.lab?.name,
+    professional: prosthesis?.professional?.name, 
+    status: prosthesis?.status?.name,
+})})
 
   type CardProps = {
     columns: {},
