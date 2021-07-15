@@ -4,10 +4,7 @@ import Result from '../../components/Result';
 import { Container } from './styles';
 
 export default function ScannerPage(){
-  const [isbn, setIsbn] = React.useState<string>('')
-  React.useEffect(() => {
-    console.log('isbn', isbn)
-  }, [isbn])
+  const [isbn, setIsbn] = React.useState<string>()
   return ( 
     <Container>
       <Scanner onScan={setIsbn}/>

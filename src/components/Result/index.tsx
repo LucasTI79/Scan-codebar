@@ -11,24 +11,28 @@ interface Props {
 }
 
 const Result: React.FC<Props> = ({ isbn }) => {
-  const [ prosthesis, setProsthesis ] = React.useState<IProsthesis | null>();
-  React.useEffect(() => {
+  const [ prosthesis, setProsthesis ] = React.useState<any>();
+  React.useLayoutEffect(() => {
     (async() => {
-      const res = await getProsthesis(isbn) ;
-      setProsthesis(res.data)
-      console.log('isbn new', isbn)
+      const res = await getProsthesis(isbn);
+      console.log('res.data', res.data)
+      setProsthesis(res.data);
     })()
   },[isbn])
 
   return(
     <Container>
       { prosthesis && (
-        <Link to={`/prosthesis/${isbn}`}>
+        <Link to={`/prosthesis/${prosthesis.isbn}`}>
           <Wrapper>
             <Info>
+              {/* <p className="name"><b>Enviado:</b> {prosthesis.createdAt}</p>
               <p className="name"><b>Profissional:</b> {prosthesis.professional}</p>
-              <p className="name"><b>Paciente:</b> {prosthesis.patient}</p>
-              <p className="name"><b>Data:</b> {prosthesis.createdAt}</p>
+              <p className="name"><b>Paciente:</b> {prosthesis.patient.name}</p>
+              <p className="name"><b>Retorno:</b> {prosthesis.DeliveryDate}</p> */}
+              <p>{//@ts-ignore
+                prosthesis.name
+              }</p>
             </Info>
             <ActionButtons >
               <span className="button">
