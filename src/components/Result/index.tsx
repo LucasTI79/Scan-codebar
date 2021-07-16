@@ -1,9 +1,7 @@
 import React from 'react';
 import { MdArrowForward } from 'react-icons/md';
 import { Link } from 'react-router-dom';
-
 import { Container, Wrapper, Info, ActionButtons } from './styles'
-
 import { getProsthesis } from '../../services/prosthesis';
 
 interface Props {
