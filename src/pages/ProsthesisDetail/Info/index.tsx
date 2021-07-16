@@ -2,7 +2,6 @@ import React from 'react';
 import { MdArrowBack } from 'react-icons/md';
 import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
-// import 'moment/locale/pt-br';
 import { Wrapper } from './styles';
 import { changeStatus, IProsthesis }  from '../../../services/prosthesis';
 import { getStatus, IStatus } from '../../../services/status';
@@ -11,8 +10,6 @@ import { catchValue } from '../../../utils/catchValueDataList';
 interface Props {
   prosthesis: IProsthesis[];
 }
-
-// moment.locale('pt-br')
 
 const Info: React.FC<Props> = ({ prosthesis }) => {
   React.useEffect(() => {

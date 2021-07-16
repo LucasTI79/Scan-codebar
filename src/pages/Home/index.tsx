@@ -8,7 +8,6 @@ export default function Home(){
       <Container>
         <Sidebar />
         <Wrapper>
-      
             <h1>Teste</h1>
           <BottomNavigation />
         </Wrapper>
