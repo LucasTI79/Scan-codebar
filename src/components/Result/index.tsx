@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom';
 
 import { Container, Wrapper, Info, ActionButtons } from './styles'
 
-import { getProsthesis, IProsthesis } from '../../services/prosthesis';
+import { getProsthesis } from '../../services/prosthesis';
 
 interface Props {
   isbn: string

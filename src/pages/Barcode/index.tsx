@@ -1,4 +1,4 @@
-import React, { Dispatch } from 'react';
+import React from 'react';
 import JsBarcode from 'jsbarcode';
 import { handleNumber } from '../../utils/generateHandleNumber';
 import { checksum } from '../../utils/generatecheckdigit';
@@ -10,6 +10,7 @@ import apiLocal from '../../services/apiLocal';
 import { getPatients, IPatient } from '../../services/patients';
 import { getServices, IServices } from '../../services/services';
 import { catchValue } from '../../utils/catchValueDataList';
+import moment from 'moment';
 
 const Barcode: React.FC = () => {
   React.useEffect(() => {
@@ -34,8 +35,7 @@ const Barcode: React.FC = () => {
   const [ deliveryDate, setDeliveryDate ] = React.useState('' as string)
   const [ box, setBox ] = React.useState<string>()
 
-  const handleCodeBar = (e: any) => {
-    e.preventDefault();
+  const generateBarCode = () => {
     const handle = handleNumber()
     JsBarcode('#barcode' , handle , {
       displayValue: true,
@@ -50,16 +50,34 @@ const Barcode: React.FC = () => {
       flat: true
     });
     setIsbn(`${handle}${checksum(handle)}`)
+  } 
+
+  const handleCodeBar = (e: any) => {
+    e.preventDefault();
+    if(document.forms[0]) {
+      const values = Array.from(document.forms[0])
+                    .map((formitem: any ) => formitem.attributes["type"].value === 'text' && formitem );
+      for (let el of values){
+        if(el){
+          if(!el.value){
+            alert(`Por favor preencha o campo ${el.attributes["name"].value}`)
+            break
+          }
+          generateBarCode()
+        }
+      }
+    }
   }
 
   const print = (e: any) => {
     e.preventDefault();
-    const context: HTMLElement | null = document.getElementById('barcode')
-    const screen = window.open('about:blank') as Window;
-    screen.document.write(context?.outerHTML!)
-    screen.window.print()
+    // if(document?.forms) console.log(document?.forms[0])
+    // const context: HTMLElement | null = document.getElementById('barcode')
+    // const screen = window.open('about:blank') as Window;
+    // screen.document.write(context?.outerHTML!)
+    // screen.window.print()
     handleCreateProsthesis()
-    screen.window.close()
+ //   screen.window.close()
     
   }
 
@@ -86,17 +104,25 @@ const Barcode: React.FC = () => {
       </Link>
       <main>
         <h1>Cadastrar código de barras</h1>
-        <form >
+        <form>
           <label htmlFor="txtSendDate">Data de retorno</label>
-          <input type="date" onChange={e => setDeliveryDate(e.target.value)}/>
+          <input 
+            type="date"
+            name="Data"
+            value={moment(new Date()).add(7,'days').format('YYYY-MM-DD')}
+            onChange={e => setDeliveryDate(e.target.value)}
+            />
       
           <label htmlFor="txtPatient">Paciente</label>
           
           <input 
             id="txtPatient" 
             list="dataPatient" 
+            type="text"
+            name="Paciente"
             onChange={() => catchValue("txtPatient","dataPatient", setPatient )}
             autoComplete={'off'}
+            required
             />
   
           <datalist id="dataPatient">
@@ -111,7 +137,9 @@ const Barcode: React.FC = () => {
           
           <input 
             id="txtProfessional" 
-            list="dataProfessional" 
+            list="dataProfessional"
+            name="Profissional" 
+            type="text"
             onChange={() => catchValue("txtProfessional","dataProfessional", setDr )} 
             autoComplete={'off'}
             />
@@ -127,6 +155,7 @@ const Barcode: React.FC = () => {
           <input 
             id="txtService" 
             list="dataServices" 
+            name="Serviço" 
             type="text" 
             onChange={() => catchValue("txtService","dataServices", setService )}
             autoComplete={'off'}
@@ -142,6 +171,7 @@ const Barcode: React.FC = () => {
           <label>Box</label>
           <input 
             type="text"
+            name="Box" 
             onChange={(e) => setBox(e.target.value)}
           />
 
