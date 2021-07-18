@@ -46,10 +46,7 @@ export default function Patient(){
     e.preventDefault()
     validateForm()
     //@ts-ignore
-    // console.log(nameRef?.current?.value, rgRef?.current?.value, cpfRef.current?.value , emailRef.current?.value, phoneRef.current?.value, birthdayRef.current?.value, genderRef.current?.value, plan.attributes["data-id"].value )
-    //@ts-ignore
     const res = await registerPatient({ name: nameRef?.current?.value, RG: rgRef?.current?.value, CPF: cpfRef.current?.value , email: emailRef.current?.value, phone: phoneRef.current?.value, birthday: birthdayRef.current?.value, gender: genderRef.current?.value, plan : { id : plan.attributes["data-id"].value}})
-    console.log('res',res)
     if(res.status === 200){
       setIsModalVisible(prevstate => !prevstate)
       alert('Patient created')
@@ -84,7 +81,7 @@ export default function Patient(){
         <datalist id="dataPatient">
           { //@ts-ignore
             patients && patients.map((item, i) =>
-            <option key={i} data-id={item.id} value={item.name}/>
+            <option key={i} data-id={item.id} value={item.name}>{item.name}</option>
           )}
         </datalist>
       </div>

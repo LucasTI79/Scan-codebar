@@ -23,6 +23,12 @@ export const Container = styled.div`
       width: 100%;
     }
 
+    #dataPatient {
+      option {
+        text-transform: capitalize;
+      }
+    }
+
     label {
       color: #3d3d3d;
       display: block;

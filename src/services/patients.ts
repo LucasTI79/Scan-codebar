@@ -16,7 +16,6 @@ export const searchPatient = async(q: string) => {
 }
 
 export const registerPatient = async (data: Omit<IPatient, 'id'>) => {
-  console.log('data',data)
   const response = await apiLocal.post('/patients', data)
   return response as AxiosResponse<IPatient>
 }
