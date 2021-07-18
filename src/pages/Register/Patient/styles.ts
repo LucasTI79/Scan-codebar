@@ -7,7 +7,7 @@ export const Container = styled.div`
     overflow-y: auto;
 
     .containerinputs {
-      margin: 1%;
+      height: 50vh;
       flex-direction: column;
     }
     .groupInput {

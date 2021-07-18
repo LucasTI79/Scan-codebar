@@ -14,6 +14,12 @@ export const searchPatient = async(q: string) => {
   const response =  await apiLocal.get(`/patients/search?q=${q}`)
   return response as AxiosResponse<IPatient[]>
 }
+
+export const registerPatient = async (data: Omit<IPatient, 'id'>) => {
+  console.log('data',data)
+  const response = await apiLocal.post('/patients', data)
+  return response as AxiosResponse<IPatient>
+}
 export interface IPatient {
   id: string,
   name: string,
@@ -27,8 +33,8 @@ export interface IPatient {
 }
 
 interface IPlan {
-  active: boolean,
+  active?: boolean,
   id: string,
-  defaultPlan: boolean,
-  name: string,
+  defaultPlan?: boolean,
+  name?: string,
 }
