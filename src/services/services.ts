@@ -3,7 +3,7 @@ import apiLocal from "./apiLocal"
 
 export const getServices = async () => {
   const response = await apiLocal.get('/services')
-  return response as AxiosResponse<IServices>
+  return response as AxiosResponse<IServices[]>
 }
 
 export interface IServices {

@@ -12,6 +12,7 @@ import { getServices, IServices } from '../../services/services';
 import { catchValue } from '../../utils/catchValueDataList';
 import moment from 'moment';
 import { validateForm } from '../../utils/ValidateForm';
+import { getStatus, IStatus } from '../../services/status';
 
 const Barcode: React.FC = () => {
   React.useEffect(() => {
@@ -22,18 +23,23 @@ const Barcode: React.FC = () => {
       setPatients(dataPatients)
       const { data: dataServices } = await getServices();
       setServices(dataServices)
+      const { data: dataStatus } = await getStatus();
+      setStatusData(dataStatus)
     })()
   },[])
 
   const [ drs, setDrs ] = React.useState<IProfessional[]>()
   const [ patients, setPatients ] = React.useState<IPatient[]>()
-  const [ services, setServices ] = React.useState<IServices>()
+  const [ services, setServices ] = React.useState<IServices[]>([])
+  const [ statusData , setStatusData ] = React.useState<IStatus[]>([])
 
   const [ isbn, setIsbn ] = React.useState<string>('')
   const [ patient, setPatient ] = React.useState<NamedNodeMap | undefined>()
   const [ service, setService ] = React.useState<NamedNodeMap | undefined>()
+  const [ status, setStatus ] = React.useState<NamedNodeMap | undefined>()
   const [ dr, setDr ] = React.useState<NamedNodeMap | undefined>()
   const [ deliveryDate, setDeliveryDate ] = React.useState('' as string)
+
   const [ box, setBox ] = React.useState<string>()
 
   const generateBarCode = () => {
@@ -61,7 +67,6 @@ const Barcode: React.FC = () => {
 
   const print = (e: any) => {
     e.preventDefault();
-    // if(document?.forms) console.log(document?.forms[0])
     // const context: HTMLElement | null = document.getElementById('barcode')
     // const screen = window.open('about:blank') as Window;
     // screen.document.write(context?.outerHTML!)
@@ -79,12 +84,14 @@ const Barcode: React.FC = () => {
       professional: { id: dr.attributes["data-id"].value },//@ts-ignore
       service: { id: service.attributes["data-id"].value },//@ts-ignore
       lab: { id: service.attributes["data-lab"].value },
-      box,
-      status: { id: '9105d921-fd5d-4808-963e-c8fa7abb0f16'},
+      box,//@ts-ignore
+      status: { id: status.attributes["data-id"].value },
       DeliveryDate: deliveryDate || null
     });
 
-    if(res.status === 201) { alert('barcode generate success') }
+    if(res.status === 201) { 
+      alert('barcode generate success') 
+    }
   }
   
   return(
@@ -155,6 +162,23 @@ const Barcode: React.FC = () => {
             { //@ts-ignore
               services && services.map((item, i) =>
               <option key={i} data-id={item.id} data-lab={item.lab.id} value={item.name} />
+            )}
+          </datalist>
+
+          <label htmlFor="txtStatus">Status</label>
+          <input 
+            id="txtStatus" 
+            list="dataStatus" 
+            name="Status" 
+            type="text" 
+            onChange={() => catchValue("txtStatus","dataStatus", setStatus )}
+            autoComplete={'off'}
+            />
+
+          <datalist id="dataStatus">
+            { //@ts-ignore
+              statusData && statusData.map((item, i) =>
+              <option key={i} data-id={item.id} value={item.name} />
             )}
           </datalist>
 
