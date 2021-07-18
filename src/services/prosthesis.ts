@@ -5,7 +5,7 @@ import { IProfessional } from './profissional';
 import { ILab, IServices } from './services';
 
 export const getAllProsthesis = async  () => {
-  const response = await apiLocal.get(`/prosthesis`);
+  const response = await apiLocal.get(`/prosthesis/logs`);
   return response as AxiosResponse<IProsthesis[]>
 }
 
