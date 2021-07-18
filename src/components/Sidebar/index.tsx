@@ -1,5 +1,5 @@
 import React from 'react';
-import { IoIosQrScanner, IoMdBarcode, IoIosStats } from 'react-icons/io';
+import { IoIosQrScanner, IoMdBarcode, IoIosStats, IoMdAddCircleOutline } from 'react-icons/io';
 import { Link } from 'react-router-dom';
 
 import { Aside } from './styles';
@@ -21,8 +21,12 @@ const Sidebar: React.FC = () => {
 
           <Link to={'/reports'}>
             <IoIosStats size={20} />
-            Stats
+            Reports
           </Link>
+          <Link className="link-container" to="/register">
+          <IoMdAddCircleOutline size={20} />
+          <p>Register</p>   
+        </Link>
         </ul>
       </nav>
     </Aside>

@@ -11,6 +11,7 @@ import { getPatients, IPatient } from '../../services/patients';
 import { getServices, IServices } from '../../services/services';
 import { catchValue } from '../../utils/catchValueDataList';
 import moment from 'moment';
+import { validateForm } from '../../utils/ValidateForm';
 
 const Barcode: React.FC = () => {
   React.useEffect(() => {
@@ -25,7 +26,7 @@ const Barcode: React.FC = () => {
   },[])
 
   const [ drs, setDrs ] = React.useState<IProfessional[]>()
-  const [ patients, setPatients ] = React.useState<IPatient>()
+  const [ patients, setPatients ] = React.useState<IPatient[]>()
   const [ services, setServices ] = React.useState<IServices>()
 
   const [ isbn, setIsbn ] = React.useState<string>('')
@@ -54,19 +55,8 @@ const Barcode: React.FC = () => {
 
   const handleCodeBar = (e: any) => {
     e.preventDefault();
-    if(document.forms[0]) {
-      const values = Array.from(document.forms[0])
-                    .map((formitem: any ) => formitem.attributes["type"].value === 'text' && formitem );
-      for (let el of values){
-        if(el){
-          if(!el.value){
-            alert(`Por favor preencha o campo ${el.attributes["name"].value}`)
-            break
-          }
-          generateBarCode()
-        }
-      }
-    }
+    validateForm();
+    generateBarCode()
   }
 
   const print = (e: any) => {
@@ -104,7 +94,7 @@ const Barcode: React.FC = () => {
       </Link>
       <main>
         <h1>Cadastrar código de barras</h1>
-        <form>
+        <form id="frmbarcode">
           <label htmlFor="txtSendDate">Data de retorno</label>
           <input 
             type="date"
