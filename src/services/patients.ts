@@ -6,6 +6,14 @@ export const getPatients = async () => {
   return response as AxiosResponse<IPatient[]>
 }
 
+export const deletePatient = async (id: string) => {
+  return await apiLocal.delete(`/patients/${id}`)
+}
+
+export const searchPatient = async(q: string) => {
+  const response =  await apiLocal.get(`/patients/search?q=${q}`)
+  return response as AxiosResponse<IPatient[]>
+}
 export interface IPatient {
   id: string,
   name: string,

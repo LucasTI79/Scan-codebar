@@ -1,7 +1,7 @@
 import React from 'react';
 import { IoAddOutline } from 'react-icons/io5';
 import Modal from '../../../components/Modal';
-import { getPlans, IPlans, registerPlan } from '../../../services/plans';
+import { deletePlan, getPlans, IPlans, registerPlan } from '../../../services/plans';
 import { validateForm } from '../../../utils/ValidateForm';
 import { ContainerContent } from '../styles';
 import { Container } from './styles';
@@ -29,6 +29,12 @@ export default function Plans(){
       setPlans(prevstate => [...prevstate, res.data])
     }
   }
+
+  async function handleDelete(id: string) {
+    await deletePlan(id);
+    alert('Lab deleted')
+    setPlans(prevstate => prevstate.filter(plan => plan.id !== id))
+  }
   return (
     <Container>
       <button 
@@ -44,7 +50,7 @@ export default function Plans(){
               <div key={plan.id} className='content'>
                 <div>{plan.name}</div>
                 <div className='actions'>
-                  <button className="delete"> Excluir </button>
+                  <button className="delete" onClick={() => handleDelete(plan.id)}> Excluir </button>
                   <button> Editar </button>
                 </div>
                 

@@ -86,6 +86,10 @@ export const Container = styled.div`
 
                 .close {
                     color: rgb(244,67,54); 
+
+                    :hover {
+                        background-color: rgba(0,0,0,0.1);
+                    }
                 }
 
                 .confirm {

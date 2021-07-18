@@ -11,6 +11,10 @@ export const registerStatus = async(name: string) => {
   return response as AxiosResponse<IStatus>
 }
 
+export const deleteStatus = async (id: string) => {
+  return await apiLocal.delete(`/status/${id}`)
+}
+
 export interface IStatus {
   name: string,
   id: string

@@ -1,7 +1,7 @@
 import React from 'react';
 import { IoAddOutline } from 'react-icons/io5';
 import Modal from '../../../components/Modal';
-import { getLabs, ILabs, registerLabs } from '../../../services/labs';
+import { deleteLab, getLabs, ILabs, registerLabs } from '../../../services/labs';
 import { validateForm } from '../../../utils/ValidateForm';
 import { ContainerContent } from '../styles';
 import { Container } from './styles';
@@ -18,6 +18,7 @@ export default function Lab(){
   },[])
 
   const labRef = React.useRef<HTMLInputElement>(null)
+
   async function handleLab(e: any){
     e.preventDefault()
     validateForm()
@@ -28,6 +29,14 @@ export default function Lab(){
       alert('Lab created')
       setLabs(prevstate => [...prevstate, res.data])
     }
+  }
+
+  async function handleDelete(id: string) {
+    await deleteLab(id);
+    alert('Lab deleted')
+    const newLabs = labs.filter(lab => lab.id !== id)
+    console.log('newLabs',newLabs)
+    setLabs(prevstate => prevstate.filter(lab => lab.id !== id))
   }
   return (
     <Container>
@@ -40,11 +49,11 @@ export default function Lab(){
           </button>
         
           <ContainerContent>
-          { labs && labs.map(labs => (
-              <div key={labs.id} className='content'>
-                <div>{labs.name}</div>
+          { labs && labs.map(lab => (
+              <div key={lab.id} className='content'>
+                <div>{lab.name}</div>
                 <div className='actions'>
-                  <button className="delete"> Excluir </button>
+                  <button className="delete" onClick={() => handleDelete(lab.id)}> Excluir </button>
                   <button> Editar </button>
                 </div>
                 

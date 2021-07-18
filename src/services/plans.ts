@@ -11,6 +11,10 @@ export const registerPlan = async (name: string, active: boolean = true, default
   return response as AxiosResponse<IPlans>
 }
 
+export const deletePlan = async (id: string) => {
+  return await apiLocal.delete(`/plans/${id}`)
+}
+
 export interface IPlans {
   name: string,
   id: string,

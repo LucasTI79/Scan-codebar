@@ -21,7 +21,7 @@ export const Wrapper = styled.main`
     .plus {
       display: flex;
       flex-direction: row;
-      margin-left: 2%;
+      margin: 0.5rem 2%;
       padding: 0.5rem 0.75rem;
       background-color: #50ae54;
       border-radius: 5px;
@@ -74,8 +74,19 @@ export const ContainerContent = styled.div`
     flex-direction: column;
     background-color: #fff;
     margin: 1%;
+    height: 7rem;
     padding: 1.5%;
     border-radius: 5px;
+
+    @media (max-width: 768px){
+      flex: 48%;
+      max-width: 50%;
+    }
+
+    @media (max-width: 576px){
+      flex: 90%;
+      max-width: 100%;
+    }
     
     div {
       display: flex;
@@ -98,6 +109,10 @@ export const ContainerContent = styled.div`
         background-color: transparent;
         text-transform: uppercase;
         font-weight: bold;
+
+        :hover {
+          background-color: rgba(0,0,0,0.1);
+        }
       }
 
       .delete {

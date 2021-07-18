@@ -4,7 +4,7 @@ import { Container } from './styles';
 import { ContainerContent } from '../styles'
 import Modal from '../../../components/Modal';
 import { IoAddOutline } from 'react-icons/io5';
-import { getStatus, IStatus, registerStatus } from '../../../services/status';
+import { deleteStatus, getStatus, IStatus, registerStatus } from '../../../services/status';
 
 const Status: React.FC = () => {
   const [ isModalVisible, setIsModalVisible ] = React.useState<boolean>(false)
@@ -29,6 +29,12 @@ const Status: React.FC = () => {
       setStatus(prevstate => [...prevstate, res.data])
     }
   }
+
+  async function handleDelete(id: string) {
+    await deleteStatus(id);
+    alert('Status deleted')
+    setStatus(prevstate => prevstate.filter(status => status.id !== id))
+  }
  
   return (
     <Container>
@@ -45,7 +51,7 @@ const Status: React.FC = () => {
           <div key={status.id} className='content'>
             <div>{status.name}</div>
             <div className='actions'>
-              <button className="delete"> Excluir </button>
+              <button className="delete" onClick={() => handleDelete(status.id)}> Excluir </button>
               <button> Editar </button>
             </div>            
           </div>

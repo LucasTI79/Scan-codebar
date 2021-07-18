@@ -11,6 +11,10 @@ export const registerLabs = async (name: string) => {
   return response as AxiosResponse<ILabs>
 }
 
+export const deleteLab = async (id: string) => {
+  return await apiLocal.delete(`/labs/${id}`)
+}
+
 export interface ILabs {
   name: string,
   id: string,
