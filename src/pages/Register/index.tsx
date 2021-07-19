@@ -3,42 +3,51 @@ import { Container, Wrapper } from './styles';
 import Sidebar from '../../components/Sidebar';
 import BottomNavigation from '../../components/BottomNavigation';
 import Plans from './Plans';
-
 import Status from './Status';
 import Lab from './Lab';
 import { ReactNode } from 'react';
 import Patient from './Patient';
+//@ts-ignore
+import Flickity from "react-flickity-component";
+
+import "./flickity.css";
 
 export default function Register(){
   return (
       <Container>
         <Sidebar />
         <Wrapper>
-        <div className="tabs">
-  
-       <Tabs>
-         <Tab label="Pacientes">
-            <Patient />
-         </Tab>
-         <Tab label="Laboratórios">
-            <Lab />
-         </Tab>
-         <Tab label="Serviços">
-           <div>
-             <p>Tab 3 content</p>
-           </div>
-         </Tab>
-         <Tab label="Planos">
-            <Plans />            
-         </Tab>
+          <div className="tabs">
+    
+          <Tabs>
 
-         <Tab label="Status">
-            <Status /> 
-         </Tab>
+            <Tab label="Pacientes">
+                <Patient />
+            </Tab>
 
-       </Tabs>
-      </div>
-          <BottomNavigation />
+            <Tab label="Laboratórios">
+                <Lab />
+            </Tab>
+
+            <Tab label="Serviços">
+              <div>
+                <p>Tab 3 content</p>
+              </div>
+            </Tab>
+            
+            <Tab label="Planos">
+                <Plans />            
+            </Tab>
+
+            <Tab label="Status">
+                <Status /> 
+            </Tab>
+
+          </Tabs>
+        </div>
+
+        <BottomNavigation />
+
         </Wrapper>
       </Container>
   )
@@ -72,11 +81,38 @@ const Tabs: React.FC  = (props: any)=> {
   }
 
   const TabButtons: React.FC<ITabButtonsProps> = ({buttons, changeTab, activeTab}) =>{
+    const [width, setWidth] = React.useState<number>(() => document.body.clientWidth);
     return(
       <div className="tab-buttons">
-      {buttons.map((button: any, index: number )=>{
-         return <button key={index} className={button === activeTab ? 'active': ''} onClick={()=> changeTab(button)}>{button}</button>
-      })}
+      {
+        width >= 768 ? (
+          <div>
+          { 
+            buttons.map((button: any, index: number )=>{
+              return <button key={index} className={button === activeTab ? 'active carousel-cell': 'carousel-cell'} onClick={()=> changeTab(button)}>{button}</button>
+            }) 
+          }
+         </div>
+          
+        ) : (
+          <Flickity 
+            options={{
+              freeScroll: true,
+              pageDots: false,
+              draggable: true,
+              cellAlign:'left',
+              contain: true,
+              asNavFor:'.active',
+              prevNextButtons: false
+            }}>
+            {
+              buttons.map((button: any, index: number )=>{
+                return <button key={index} className={button === activeTab ? 'active carousel-cell': 'carousel-cell'} onClick={()=> changeTab(button)}>{button}</button>
+              }) 
+            }
+          </Flickity>
+        )
+      }
       </div>
     )
   }

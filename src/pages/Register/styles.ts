@@ -11,12 +11,25 @@ export const Wrapper = styled.main`
   width: 90vw;
   height: 100vh;
 
+  @media (max-width: 768px){
+    width: 100vw;
+    flex-direction: column;
+  } 
+
   .tabs{
     font-family:arial;
     margin: 0 auto;
     width:100%;
     height: 10vh;
     text-align:left;
+
+    .tab-content {
+      height: 85vh;
+      @media (max-width: 768px){
+        height: 75vh;
+        overflow-y: auto;
+      } 
+    }
 
     .plus {
       display: flex;
@@ -34,6 +47,9 @@ export const Wrapper = styled.main`
 
   .tab-buttons{
     margin: 0px 10px 5px 10px;
+    height: 10vh;
+
+
     button{
       font-size:20px;
       background:transparent;
@@ -56,10 +72,6 @@ export const Wrapper = styled.main`
     
       color:#6976d9;
     }
-  } 
-  @media (max-width: 768px){
-    width: 100vw;
-    flex-direction: column;
   }  
 `
 
@@ -74,7 +86,7 @@ export const ContainerContent = styled.div`
     flex-direction: column;
     background-color: #fff;
     margin: 1%;
-    height: 7rem;
+    height: 100%;
     padding: 1.5%;
     border-radius: 5px;
 

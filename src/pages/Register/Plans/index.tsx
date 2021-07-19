@@ -38,41 +38,41 @@ export default function Plans(){
   return (
     <Container>
       <button 
-            onClick={() => setIsModalVisible(true)} 
-            className='plus'
-            >
-              Novo Plano
-              <IoAddOutline size={18} color={'#fff'}/>
-          </button>
-        
-          <ContainerContent>
-          { plans && plans.map(plan => (
-              <div key={plan.id} className='content'>
-                <div>{plan.name}</div>
-                <div className='actions'>
-                  <button className="delete" onClick={() => handleDelete(plan.id)}> Excluir </button>
-                  <button> Editar </button>
-                </div>
-                
-              </div>
-          ))}
-         </ContainerContent>
-         {isModalVisible && ( 
-            <Modal id="PlanModal" title="Novo Plano" onSubmit={(e) => handlePlan(e)} onClose={() => setIsModalVisible(prevstate => !prevstate)} >
-              <form id="frmplans">
-                <label htmlFor="txtPlan">Nome Plano</label>
-                <input 
-                  id="txtPlan"
-                  type="text"
-                  name="plano"
-                  ref={nameRef}
-                  autoComplete={'off'}
-                  pattern=".+"
-                  required
-                  />
-              </form> 
-            </Modal>
-          )} 
+        onClick={() => setIsModalVisible(true)} 
+        className='plus'
+        >
+          Novo Plano
+          <IoAddOutline size={18} color={'#fff'}/>
+      </button>
+    
+      <ContainerContent>
+      { plans && plans.map(plan => (
+          <div key={plan.id} className='content'>
+            <div>{plan.name}</div>
+            <div className='actions'>
+              <button className="delete" onClick={() => handleDelete(plan.id)}> Excluir </button>
+              <button> Editar </button>
+            </div>
+            
+          </div>
+      ))}
+      </ContainerContent>
+      {isModalVisible && ( 
+        <Modal id="PlanModal" title="Novo Plano" onSubmit={(e) => handlePlan(e)} onClose={() => setIsModalVisible(prevstate => !prevstate)} >
+          <form id="frmplans">
+            <label htmlFor="txtPlan">Nome Plano</label>
+            <input 
+              id="txtPlan"
+              type="text"
+              name="plano"
+              ref={nameRef}
+              autoComplete={'off'}
+              pattern=".+"
+              required
+              />
+          </form> 
+        </Modal>
+      )} 
     </Container>
   )
 }
